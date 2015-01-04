@@ -23,12 +23,12 @@ CREATE TABLE record(
 	fee DOUBLE(5,2)
 );
 
-INSERT INTO card VALUES('CARD001', '张三', '123', 100,0);
-INSERT INTO card VALUES('CARD002', '李四', '123', 100,0);
-INSERT INTO card VALUES('CARD003', '王五', '123', 100,0);
-INSERT INTO card VALUES('CARD004', '伟哥', '123', 100,0);
-INSERT INTO card VALUES('CARD005', '小强', '123', 100,0);
-INSERT INTO card VALUES('CARD006', '四爷', '123', 100,0);
+INSERT INTO card VALUES('CARD001', '寮犱笁', '123', 100,0);
+INSERT INTO card VALUES('CARD002', '鏉庡洓', '123', 100,0);
+INSERT INTO card VALUES('CARD003', '鐜嬩簲', '123', 100,0);
+INSERT INTO card VALUES('CARD004', '浼熷摜', '123', 100,0);
+INSERT INTO card VALUES('CARD005', '灏忓己', '123', 100,0);
+INSERT INTO card VALUES('CARD006', '鍥涚埛', '123', 100,0);
 
 INSERT INTO computer(computerid, state) VALUES('COM001', 0);
 INSERT INTO computer(computerid, state) VALUES('COM002', 0);
