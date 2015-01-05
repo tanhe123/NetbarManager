@@ -4,7 +4,7 @@ CREATE TABLE card(
 	cardid INTEGER PRIMARY KEY auto_increment,
 	username VARCHAR(20) NOT NULL,
 	password VARCHAR(20) NOT NULL,
-	balance DOUBLE(5,2),
+	balance DOUBLE(8,2),
 	state INTEGER NOT NULL
 );
 

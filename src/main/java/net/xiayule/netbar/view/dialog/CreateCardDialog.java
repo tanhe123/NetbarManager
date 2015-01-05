@@ -1,9 +1,12 @@
 package net.xiayule.netbar.view.dialog;
 
+import net.xiayule.netbar.db.CardDao;
 import net.xiayule.netbar.db.impl.CardDaoImp;
 import net.xiayule.netbar.db.impl.ComputerDaoImp;
 import net.xiayule.netbar.db.impl.RecordDaoImp;
 import net.xiayule.netbar.entity.Card;
+import net.xiayule.netbar.utils.BoxUtils;
+import net.xiayule.netbar.utils.ComponentUtils;
 import net.xiayule.netbar.utils.Utils;
 
 import javax.swing.*;
@@ -13,103 +16,123 @@ import java.awt.event.ActionListener;
 
 public class CreateCardDialog extends JDialog {
 
-	private JLabel numberLabel = new JLabel("卡号：");
-	private JLabel nameLabel = new JLabel("姓名：");
-	private JLabel passwordLabel = new JLabel("密码：");
-	private JLabel moneyLabel = new JLabel("金额： ");
-	private JLabel stateLabel = new JLabel("状态： ");
+//	private JLabel numberLabel = new JLabel("卡号：");
+	private JLabel nameLabel = new JLabel("姓名: ");
+	private JLabel passwordLabel = new JLabel("密码: ");
+	private JLabel balanceLabel = new JLabel("金额: ");
+	private JLabel stateLabel = new JLabel("状态: ");
 
-	private JTextField cardidText = new JTextField(11);
-	private TextField nameText = new TextField(15);
-	private JTextField passwordText = new JTextField(11);
-	private JTextField moneyText = new JTextField(11);
-	private JTextField stateText = new JTextField("0");
+//	private JTextField cardidText = new JTextField(11);
+	private JTextField nameText = ComponentUtils.createJTextField();
+	private JTextField passwordText = ComponentUtils.createJTextField();
+	private JTextField balanceText = ComponentUtils.createJTextField();
+	private JTextField stateText = ComponentUtils.createJTextField();
 
 	private JButton submit = new JButton("确定");
 	private JButton afresh = new JButton("重置");
 
-	private JPanel numberPanel = new JPanel();
-	private JPanel namePanel = new JPanel();
-	private JPanel passwordPanel = new JPanel();
-	private JPanel moneyPanel = new JPanel();
-	private JPanel statePanel = new JPanel();
-	private JPanel btnPanel = new JPanel();
+	private JPanel mainPanel = new JPanel();
 
-	CardDaoImp cdi = new CardDaoImp();
-	ComputerDaoImp cpdi = new ComputerDaoImp();
-	RecordDaoImp rdi = new RecordDaoImp();
+	CardDao cardDao = new CardDaoImp();
+//	ComputerDaoImp cpdi = new ComputerDaoImp();
+//	RecordDaoImp rdi = new RecordDaoImp();
 
 	public CreateCardDialog(JFrame frame) {
-		super(frame, "网吧计费系统", true);
+		super(frame, "新会员--网吧计费系统", true);
 		this.init();
 		this.addComponent();
-		this.pack();
+//		this.pack();
 		this.addListener();
 	}
 
 	private void init() {
+		this.setResizable(false);
+		setSize(400, 400);
 		this.setLocation(300, 200);
-		this.setLayout(new GridLayout(6, 1));
 	}
 
 	private void addComponent() {
-		this.add(numberPanel);
-		this.add(namePanel);
-		this.add(passwordPanel);
-		this.add(moneyPanel);
-		this.add(statePanel);
-		this.add(btnPanel);
 
-		numberPanel.add(numberLabel);
-		numberPanel.add(cardidText);
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-		passwordPanel.add(passwordLabel);
-		passwordPanel.add(passwordText);
+//		mainPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		namePanel.add(nameLabel);
-		namePanel.add(nameText);
+		this.getContentPane().add(mainPanel, BorderLayout.CENTER);
 
-		btnPanel.add(submit);
-		btnPanel.add(afresh);
+//		mainPanel.setBorder(BorderFactory.createTitledBorder("新的会员:"));
 
-		moneyPanel.add(moneyLabel);
-		moneyPanel.add(moneyText);
+		mainPanel.add(BoxUtils.createVerticalStrut(40));
 
-		statePanel.add(stateLabel);
-		statePanel.add(stateText);
+		// 姓名
+		Box nameBox = BoxUtils.createHorizontalBox();
+		nameBox.add(nameLabel);
+		nameBox.add(nameText);
 
+		mainPanel.add(nameBox);
+		mainPanel.add(BoxUtils.createVerticalStrut());
+
+		// 密码
+		Box passBox = BoxUtils.createHorizontalBox();
+		passBox.add(passwordLabel);
+		passBox.add(passwordText);
+		mainPanel.add(passBox);
+
+		mainPanel.add(BoxUtils.createVerticalStrut());
+
+		// 金额
+		Box balanceBox = BoxUtils.createHorizontalBox();
+		balanceBox.add(balanceLabel);
+		balanceBox.add(balanceText);
+		mainPanel.add(balanceBox);
+
+		mainPanel.add(BoxUtils.createVerticalStrut());
+
+		// 状态
+		Box stateBox= BoxUtils.createHorizontalBox();
+		stateBox.add(stateLabel);
+		stateBox.add(stateText);
+		mainPanel.add(stateBox);
+
+		mainPanel.add(BoxUtils.createVerticalStrut(40));
+
+
+		// 按钮
+		Box btnBox = BoxUtils.createHorizontalBox();
+		btnBox.add(submit);
+		btnBox.add(BoxUtils.createHorizontalStrut());
+		btnBox.add(afresh);
+		mainPanel.add(btnBox);
+
+		mainPanel.add(BoxUtils.createVerticalStrut());
 	}
 
 	// 重置
 	private void addListener() {
 		afresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardidText.setText(null);
 				passwordText.setText(null);
 				nameText.setText(null);
-				moneyText.setText(null);
+				balanceText.setText(null);
 				stateText.setText(null);
 			}
 		});
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				String a = cardidText.getText();
 				String password = passwordText.getText();
 				String username = nameText.getText();
-				double balance = Double.parseDouble(moneyText.getText());
+				double balance = Double.parseDouble(balanceText.getText());
 				int state = Integer.parseInt(stateText.getText());
 
 				Card card = new Card();
-//				card.setCardid(a);
 				card.setPassword(password);
 				card.setUsername(username);
 				card.setBalance(balance);
 				card.setState(state);
-				if (cdi.presence(nameText.getText()) == 0) {
+				if (cardDao.presence(nameText.getText()) == 0) {
 					//todo:
 //					rdi.deleteReCord(card.getCardid());
 
-					cdi.insertCard(card);
+					cardDao.insertCard(card);
 					Utils.showDialog("创建成功");
 					CreateCardDialog.this.dispose();
 				} else {
