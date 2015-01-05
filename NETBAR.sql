@@ -14,7 +14,7 @@ ALTER TABLE card auto_increment=1000;
 
 CREATE TABLE computer(
 	computerid INTEGER PRIMARY KEY auto_increment,
-	# 记录上机人的 id
+	# 有人上机为1, 否则为0
 	state INTEGER NOT NULL
 #	remark VARCHAR(50)
 );

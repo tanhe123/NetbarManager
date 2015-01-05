@@ -15,19 +15,19 @@ public class MainFrame extends JFrame {
     private JMenuBar menuBar = new JMenuBar();
 
     // todo: 操作(上机，下级)
+    private JMenu computerMenu = new JMenu("机器管理");
+    private JMenu cardMenu = new JMenu("会员");
 
-    private JMenu cardMenu = new JMenu("卡管理");
+    // 计算机管理
+    private JMenuItem computerAdd = new JMenuItem("新增机器");
+    private JMenuItem computerRemove = new JMenuItem("删除机器");
+    private JMenuItem computerAlter = new JMenuItem("修改机器");
 
-    //todo: 计算机管理
-
+    // 会员管理
+    private JMenuItem cardAdd = new JMenuItem("新会员");
+    private JMenuItem cardRecharge = new JMenuItem("充值会员");
 
     //todo: 查询与统计
-
-
-
-    // 卡管理
-    private JMenuItem cardAdd = new JMenuItem("新增卡");
-    private JMenuItem cardRecharge = new JMenuItem("充值会员");
 
     //todo 查询信息 {余额和，注销, 启用卡}
 
@@ -51,7 +51,6 @@ public class MainFrame extends JFrame {
         //充值
         cardRecharge.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //todo: 改成充值会员
                 JDialog dialog = new RechargeCardDialog(MainFrame.this);
                 dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 dialog.setVisible(true);
@@ -62,12 +61,17 @@ public class MainFrame extends JFrame {
     private void addComponent() {
         this.setJMenuBar(menuBar);
 
+        menuBar.add(computerMenu);
         menuBar.add(cardMenu);
 
+        // 机器管理菜单
+        computerMenu.add(computerAdd);
+        computerMenu.add(computerAlter);
+        computerMenu.add(computerRemove);
+
+        // 会员管理菜单
         cardMenu.add(cardAdd);
         cardMenu.add(cardRecharge);
-
-
     }
 
     private void init() {
