@@ -1,20 +1,23 @@
 package net.xiayule.netbar.entity;
 
 public class Computer {
-	private String computerid;
+	private Integer computerid;
 	private int state;
 	public Computer() {
 	}
-	public Computer(String computerid, int state) {
+	public Computer(Integer computerid, int state) {
 		this.computerid = computerid;
 		this.state = state;
 	}
-	public String getComputerid() {
+
+	public Integer getComputerid() {
 		return computerid;
 	}
-	public void setComputerid(String computerid) {
+
+	public void setComputerid(Integer computerid) {
 		this.computerid = computerid;
 	}
+
 	public int getState() {
 		return state;
 	}
@@ -25,8 +28,6 @@ public class Computer {
 	public String toString() {
 		return computerid + " : " +state;
 	}
-	
-	
-	
+
 	
 }

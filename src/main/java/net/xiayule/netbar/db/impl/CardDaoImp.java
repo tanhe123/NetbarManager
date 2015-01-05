@@ -24,26 +24,19 @@ public class CardDaoImp implements CardDao {
 	public CardDaoImp(JdbcTemplate jtl) {
 		this.jtl = jtl;
 	}
-	
 
-	public JdbcTemplate getJtl() {
-		return jtl;
-	}
-
-	public void setJtl(JdbcTemplate jtl) {
-		this.jtl = jtl;
-	}
 	//新建卡
 	@Override
 	public void insertCard(Card card) {
-		String sql = "insert into card values(?,?,?,?,?)";
-		Object[] params = new Object[] {card.getCardid(),card.getUsername(),card.getPassword(),
+		String sql = "insert into card(username, password, balance, state) values(?,?,?,?)";
+		Object[] params = new Object[] {card.getUsername(),card.getPassword(),
 				card.getBalance(),card.getState()};
 		jtl.update(sql,params);
 	}
+
 	//充值
 	@Override
-	public void chargeCard(String cardid,double fee) {
+	public void chargeCard(Integer cardid,double fee) {
 		String sql = "select balance from card where cardid = ?";
 		Object[] params = new Object[] {cardid};
 		double balance = jtl.queryForInt(sql,params);
@@ -54,7 +47,7 @@ public class CardDaoImp implements CardDao {
 
 	//注销卡
 	@Override
-	public void deleteCard(String cardid) {
+	public void deleteCard(Integer cardid) {
 		String sql = "delete from card where cardid = ?";
 		Object[] params = new Object[] {cardid};
 		jtl.update(sql,params);
@@ -67,7 +60,7 @@ public class CardDaoImp implements CardDao {
 		String sql = "select * from card where state = ?";
 		return (ArrayList<Card>) jtl.query(sql, new Object[]{state}, new RowMapper() {
 			public Object mapRow(ResultSet rs, int arg1) throws SQLException {
-			return new Card(rs.getString("cardid"),rs.getString("username"),
+				return new Card(rs.getInt("cardid"),rs.getString("username"),
 						rs.getString("password"),rs.getDouble("balance"),rs.getInt("state"));
 			}
 	});
@@ -75,7 +68,7 @@ public class CardDaoImp implements CardDao {
 	
 	//根据卡号判断状态
 	@Override
-	public boolean isONorOFF(String cardid) {
+	public boolean isONorOFF(Integer cardid) {
 		String sql = "select state from card where cardid = ?";
 		Object[] params = new Object[]{cardid};
 		int state = jtl.queryForInt(sql, params);
@@ -84,7 +77,7 @@ public class CardDaoImp implements CardDao {
 	
 	//更改卡状态
 	@Override
-	public void updateState(String cardid,int state) {
+	public void updateState(Integer cardid,int state) {
 		String sql = "update card set state= ?  where cardid = ?";
 		Object[] params = new Object[]{state,cardid};
 		jtl.update(sql, params);
@@ -92,7 +85,7 @@ public class CardDaoImp implements CardDao {
 	
 	//验证卡号，密码和上机状态
 	@Override
-	public boolean verifyCard(String cardid,String password) {
+	public boolean verifyCard(Integer cardid,String password) {
 		String sql = "select * from card where cardid = ?";
 		Object[] params = new Object[]{cardid};
 		Map map = jtl.queryForMap(sql,params);
@@ -103,9 +96,10 @@ public class CardDaoImp implements CardDao {
 		Utils.showDialog("上机成功");
 		return true;
 	}
+
 	//查询余额
 	@Override
-	public double getBalanceByCardid(String cardid) {
+	public double getBalanceByCardid(Integer cardid) {
 		String sql = "select balance from card where cardid = ?";
 		Object[] params =  new Object[]{cardid};
 //		Object o = jtl.queryForObject(sql,new Object[]{cardid});
@@ -119,20 +113,27 @@ public class CardDaoImp implements CardDao {
 //	}
 	//改变卡余额
 	@Override
-	public void UpdateBalanceByCard(String cardid, double balance) {
+	public void UpdateBalanceByCard(Integer cardid, double balance) {
 		String sql = "update card set balance = ? where cardid = ?";
 		Object[] params = new Object[]{balance,cardid};
 		jtl.update(sql, params);
 	}
 
-
-	public int  presence (String cardid){
-		String sql = "select count(*) from card where cardid = ?";
-		Object [] params = new Object[]{cardid};
-		return 	jtl.queryForInt(sql, params);
+	/**
+	 * 检测卡号是否已经存在
+	 */
+	public int  presence (String username){
+		String sql = "select count(*) from card where username = ?";
+		Object [] params = new Object[]{username};
+		return jtl.queryForInt(sql, params);
 	}
+
 	public static void main(String[] args) {
 		CardDaoImp cdi = new CardDaoImp();
-		System.out.println(cdi.presence("CARD003"));
+
+		Card card = new Card("tan贺", "622", 3.14, 1);
+		cdi.insertCard(card);
+
+		System.out.println(cdi.presence("tan贺"));
 	}
 }

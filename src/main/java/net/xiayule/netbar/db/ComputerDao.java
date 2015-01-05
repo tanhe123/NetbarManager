@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface ComputerDao {
 	public List getComputerByState(int state);
-	public void update(String computerid, int state);
-	public boolean isONorOFF(String computerid);
+	public void update(Integer computerid, int state);
+	public boolean isONorOFF(Integer computerid);
 }

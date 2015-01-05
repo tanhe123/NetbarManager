@@ -5,15 +5,15 @@ import net.xiayule.netbar.utils.Utils;
 import java.util.Calendar;
 
 public class Record {
-	private int recordid;
-	private String cardid;
-	private String computerid;
+	private Integer recordid;
+	private Integer cardid;
+	private Integer computerid;
 	private Calendar begintime;
 	private Calendar endtime;
 	private double fee;
 	public Record() {
 	}
-	public Record(int recordid, String cardid, String computerid,
+	public Record(Integer recordid, Integer cardid, Integer computerid,
 			Calendar begintime, Calendar endtime, int fee) {
 		this.recordid = recordid;
 		this.cardid = cardid;
@@ -25,21 +25,31 @@ public class Record {
 	public int getRecordid() {
 		return recordid;
 	}
+
 	public void setRecordid(int recordid) {
 		this.recordid = recordid;
 	}
-	public String getCardid() {
+
+	public void setRecordid(Integer recordid) {
+		this.recordid = recordid;
+	}
+
+	public Integer getCardid() {
 		return cardid;
 	}
-	public void setCardid(String cardid) {
+
+	public void setCardid(Integer cardid) {
 		this.cardid = cardid;
 	}
-	public String getComputerid() {
+
+	public Integer getComputerid() {
 		return computerid;
 	}
-	public void setComputerid(String computerid) {
+
+	public void setComputerid(Integer computerid) {
 		this.computerid = computerid;
 	}
+
 	public Calendar getBegintime() {
 		return begintime;
 	}

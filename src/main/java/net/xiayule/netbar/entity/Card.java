@@ -1,17 +1,24 @@
 package net.xiayule.netbar.entity;
 
 public class Card {
-	private String cardid;
+	private Integer cardid;
 	private String username;
 	private String password;
 	private double balance;
 	private int state;
 
 	public Card() {
-		this("", null, null, 0,0);
+		this(0, null, null, 0, 0);
 	}
 
-	public Card(String cardid, String username, String password, double balance,int state) {
+	public Card(String username, String password, double balance,int state) {
+		this.username = username;
+		this.password = password;
+		this.balance = balance;
+		this.state = state;
+	}
+
+	public Card(Integer cardid, String username, String password, double balance,int state) {
 		this.cardid = cardid;
 		this.username = username;
 		this.password = password;
@@ -19,11 +26,11 @@ public class Card {
 		this.state = state;
 	}
 
-	public String getCardid() {
+	public Integer getCardid() {
 		return cardid;
 	}
 
-	public void setCardid(String cardid) {
+	public void setCardid(Integer cardid) {
 		this.cardid = cardid;
 	}
 

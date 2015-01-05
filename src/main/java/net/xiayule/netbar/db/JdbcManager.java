@@ -15,7 +15,7 @@ public class JdbcManager {
         if (jdbcTemplate == null) {
             DriverManagerDataSource dataSource=new DriverManagerDataSource();
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-            dataSource.setUrl("jdbc:mysql://localhost:3306/netbar");
+            dataSource.setUrl("jdbc:mysql://localhost:3306/netbar?useUnicode=true&amp;characterEncoding=utf8");
             dataSource.setUsername("root");
             dataSource.setPassword("0000");
 

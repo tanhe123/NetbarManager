@@ -1,40 +1,43 @@
 
 
 CREATE TABLE card(
-	cardid VARCHAR(10) PRIMARY KEY,
-	username VARCHAR(10) NOT NULL,
+	cardid INTEGER PRIMARY KEY auto_increment,
+	username VARCHAR(20) NOT NULL,
 	password VARCHAR(20) NOT NULL,
 	balance DOUBLE(5,2),
 	state INTEGER NOT NULL
 );
 
+# 卡号自动从1000开始增长
+ALTER TABLE card auto_increment=1000;
+
 CREATE TABLE computer(
-	computerid VARCHAR(10) PRIMARY KEY,
-	state INTEGER(1) NOT NULL,
-	remark VARCHAR(50)
+	computerid INTEGER PRIMARY KEY auto_increment,
+	state INTEGER(1) NOT NULL
+#	remark VARCHAR(50)
 );
 
 CREATE TABLE record(
-	recordid INTEGER(5) PRIMARY KEY,
-	cardid VARCHAR(10) NOT NULL,
-	computerid VARCHAR(10) NOT NULL,
+	recordid INTEGER PRIMARY KEY auto_increment,
+	cardid INTEGER NOT NULL,
+	computerid INTEGER NOT NULL,
 	begintime DATETIME NOT NULL,
 	endtime DATETIME,
 	fee DOUBLE(5,2)
 );
 
-INSERT INTO card VALUES('CARD001', '张三', '123', 100,0);
-INSERT INTO card VALUES('CARD002', '李四', '123', 100,0);
-INSERT INTO card VALUES('CARD003', '王五', '123', 100,0);
-INSERT INTO card VALUES('CARD004', '伟哥', '123', 100,0);
-INSERT INTO card VALUES('CARD005', '小强', '123', 100,0);
-INSERT INTO card VALUES('CARD006', '四爷', '123', 100,0);
+INSERT INTO card(username, password, balance, state) VALUES('张三', '123', 100.00,0);
+INSERT INTO card(username, password, balance, state) VALUES('李四', '123', 100.00,0);
+INSERT INTO card(username, password, balance, state) VALUES('王五', '123', 100.0,0);
+INSERT INTO card(username, password, balance, state) VALUES('伟哥', '123', 100.0,0);
+INSERT INTO card(username, password, balance, state) VALUES('小强', '123', 100.0,0);
+INSERT INTO card(username, password, balance, state) VALUES('四爷', '123', 100.0,0);
 
-INSERT INTO computer(computerid, state) VALUES('COM001', 0);
-INSERT INTO computer(computerid, state) VALUES('COM002', 0);
-INSERT INTO computer(computerid, state) VALUES('COM003', 0);
-INSERT INTO computer(computerid, state) VALUES('COM004', 0);
-INSERT INTO computer(computerid, state) VALUES('COM005', 0);
+INSERT INTO computer(state) VALUES(0);
+INSERT INTO computer(state) VALUES(0);
+INSERT INTO computer(state) VALUES(0);
+INSERT INTO computer(state) VALUES(0);
+INSERT INTO computer(state) VALUES(0);
 
 #COMMIT;
 

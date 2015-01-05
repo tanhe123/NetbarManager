@@ -22,7 +22,7 @@ public class RecordDaoImp implements RecordDao {
 	}
 
 
-	//登入时，插入一条记录
+/*	//登入时，插入一条记录
 	@Override
 	public void  insert(String cardid,String computerid,Calendar begintime) {
 		String sql = "select max(recordid) from record";
@@ -34,10 +34,10 @@ public class RecordDaoImp implements RecordDao {
 		sql = "insert into record(recordid,cardid,computerid,begintime) values (?,?,?,?)";
 		Object[] params = new Object[]{recordid,cardid,computerid, Utils.dealCalendar(begintime)};
 		jtl.update(sql, params);
-	}
+	}*/
 
 	// 返回记录对象 -- Record
-	@Override
+	/*@Override
 	public void update(String computerid, Calendar endtime) {
 		
 		String sql = "update record set endtime = ?, fee = ? where recordid = ? ";
@@ -46,13 +46,13 @@ public class RecordDaoImp implements RecordDao {
 				fee,
 				getRecord(computerid).getRecordid()};
 		jtl.update(sql, params);
-	}
+	}*/
 
 	//通过记录号查找记录
-	public Record getRecordByRecordid(int recordid) {
+	/*public Record getRecordByRecordid(int recordid) {
 		String sql = "select * from record where recordid = ? ";
 		Object[] params = new Object[]{recordid};
-		Map map = jtl.queryForMap(sql,params);
+		Map map = jtl.queryForMap(sql, params);
 		if (map==null) return null;
 		Record record = new Record();
 		record.setRecordid(((BigDecimal)map.get("RECORDID")).intValue());
@@ -62,9 +62,10 @@ public class RecordDaoImp implements RecordDao {
 		record.setEndtime(Utils.recoveryCalendar((String)map.get("ENDTIME")));
 		record.setFee(((BigDecimal)map.get("FEE")).doubleValue());
 		return record;
-	}
+	}*/
+
 	//通过机器号来查记录
-	@Override
+	/*@Override
 	public Record getRecord(String computerid) {
 		String sql = "select * from record where computerid = ? and endtime is null";
 		Object[] params = new Object[]{computerid};
@@ -77,14 +78,14 @@ public class RecordDaoImp implements RecordDao {
 		record.setComputerid((String)map.get("COMPUTERID"));
 		record.setBegintime(Utils.recoveryCalendar((String)map.get("BEGINTIME")));
 		return record;
-	}
-	//删除记录
+	}*/
+/*	//删除记录
 	@Override
 	public void deleteReCord(String cardid) {
 		String sql = "delete from record where cardid = ?";
 		Object[] params = new Object[] {cardid};
 		jtl.update(sql,params);
 	}
-	
+	*/
 
 }
