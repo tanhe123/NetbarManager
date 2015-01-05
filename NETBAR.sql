@@ -5,17 +5,22 @@ CREATE TABLE card(
 	username VARCHAR(20) NOT NULL,
 	password VARCHAR(20) NOT NULL,
 	balance DOUBLE(8,2),
+# 记录所上的电脑的 id
 	state INTEGER NOT NULL
 );
 
-# 卡号自动从1000开始增长
+# 卡号自动从 1000 开始增长
 ALTER TABLE card auto_increment=1000;
 
 CREATE TABLE computer(
 	computerid INTEGER PRIMARY KEY auto_increment,
-	state INTEGER(1) NOT NULL
+	# 记录上机人的 id
+	state INTEGER NOT NULL
 #	remark VARCHAR(50)
 );
+
+# 卡号自动从 1 开始增长
+ALTER TABLE computer auto_increment=1;
 
 CREATE TABLE record(
 	recordid INTEGER PRIMARY KEY auto_increment,

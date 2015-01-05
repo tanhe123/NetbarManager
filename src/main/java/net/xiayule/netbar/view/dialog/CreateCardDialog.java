@@ -2,8 +2,6 @@ package net.xiayule.netbar.view.dialog;
 
 import net.xiayule.netbar.db.CardDao;
 import net.xiayule.netbar.db.impl.CardDaoImp;
-import net.xiayule.netbar.db.impl.ComputerDaoImp;
-import net.xiayule.netbar.db.impl.RecordDaoImp;
 import net.xiayule.netbar.entity.Card;
 import net.xiayule.netbar.utils.BoxUtils;
 import net.xiayule.netbar.utils.ComponentUtils;
@@ -17,13 +15,13 @@ import java.awt.event.ActionListener;
 public class CreateCardDialog extends JDialog {
 
 //	private JLabel numberLabel = new JLabel("卡号：");
-	private JLabel nameLabel = new JLabel("姓名: ");
+	private JLabel usernameLabel = new JLabel("账户: ");
 	private JLabel passwordLabel = new JLabel("密码: ");
 	private JLabel balanceLabel = new JLabel("金额: ");
 	private JLabel stateLabel = new JLabel("状态: ");
 
 //	private JTextField cardidText = new JTextField(11);
-	private JTextField nameText = ComponentUtils.createJTextField();
+	private JTextField usernameText = ComponentUtils.createJTextField();
 	private JTextField passwordText = ComponentUtils.createJTextField();
 	private JTextField balanceText = ComponentUtils.createJTextField();
 	private JTextField stateText = ComponentUtils.createJTextField();
@@ -64,11 +62,11 @@ public class CreateCardDialog extends JDialog {
 		mainPanel.add(BoxUtils.createVerticalStrut(40));
 
 		// 姓名
-		Box nameBox = BoxUtils.createHorizontalBox();
-		nameBox.add(nameLabel);
-		nameBox.add(nameText);
+		Box usernameBox = BoxUtils.createHorizontalBox();
+		usernameBox.add(usernameLabel);
+		usernameBox.add(usernameText);
 
-		mainPanel.add(nameBox);
+		mainPanel.add(usernameBox);
 		mainPanel.add(BoxUtils.createVerticalStrut());
 
 		// 密码
@@ -111,7 +109,7 @@ public class CreateCardDialog extends JDialog {
 		afresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				passwordText.setText(null);
-				nameText.setText(null);
+				usernameText.setText(null);
 				balanceText.setText(null);
 				stateText.setText(null);
 			}
@@ -119,7 +117,7 @@ public class CreateCardDialog extends JDialog {
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String password = passwordText.getText();
-				String username = nameText.getText();
+				String username = usernameText.getText();
 				double balance = Double.parseDouble(balanceText.getText());
 				int state = Integer.parseInt(stateText.getText());
 
@@ -128,10 +126,9 @@ public class CreateCardDialog extends JDialog {
 				card.setUsername(username);
 				card.setBalance(balance);
 				card.setState(state);
-				if (cardDao.presence(nameText.getText()) == 0) {
-					//todo:
+				if (!cardDao.exist(usernameText.getText())) { // 如果不存在用户
+					//todo: 记录 log
 //					rdi.deleteReCord(card.getCardid());
-
 					cardDao.insertCard(card);
 					Utils.showDialog("创建成功");
 					CreateCardDialog.this.dispose();

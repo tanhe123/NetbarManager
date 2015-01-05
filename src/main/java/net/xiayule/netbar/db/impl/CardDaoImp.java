@@ -1,6 +1,7 @@
 package net.xiayule.netbar.db.impl;
 
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import net.xiayule.netbar.db.CardDao;
 import net.xiayule.netbar.db.JdbcManager;
 import net.xiayule.netbar.entity.Card;
@@ -36,7 +37,7 @@ public class CardDaoImp implements CardDao {
 
 	//充值
 	@Override
-	public void chargeCard(Integer cardid,double fee) {
+	public void chargeCard(Integer cardid, double fee) {
 		String sql = "select balance from card where cardid = ?";
 		Object[] params = new Object[] {cardid};
 		double balance = jtl.queryForInt(sql,params);
@@ -52,6 +53,15 @@ public class CardDaoImp implements CardDao {
 		Object[] params = new Object[] {cardid};
 		jtl.update(sql,params);
 	}
+
+	/**
+	 * 充值
+	 */
+	public void rechargeCard(String username, Double balance) {
+		String sql = "update card set balance = balance + ? where username=?";
+		Object[] params = new Object[] {balance, username};
+		jtl.update(sql, params);
+	}
 	
 	//根据上机状态 查询Card组
 	@SuppressWarnings("unchecked")
@@ -63,16 +73,16 @@ public class CardDaoImp implements CardDao {
 				return new Card(rs.getInt("cardid"),rs.getString("username"),
 						rs.getString("password"),rs.getDouble("balance"),rs.getInt("state"));
 			}
-	});
+		});
 	}
 	
 	//根据卡号判断状态
 	@Override
-	public boolean isONorOFF(Integer cardid) {
-		String sql = "select state from card where cardid = ?";
-		Object[] params = new Object[]{cardid};
+	public boolean isONorOFF(String username) {
+		String sql = "select state from card where username = ?";
+		Object[] params = new Object[]{username};
 		int state = jtl.queryForInt(sql, params);
-		return state==1?true:false;
+		return state == 1 ? true : false;
 	}
 	
 	//更改卡状态
@@ -85,14 +95,15 @@ public class CardDaoImp implements CardDao {
 	
 	//验证卡号，密码和上机状态
 	@Override
-	public boolean verifyCard(Integer cardid,String password) {
-		String sql = "select * from card where cardid = ?";
-		Object[] params = new Object[]{cardid};
+	public boolean verify(String username, String password) {
+		//todo: count(*)
+		String sql = "select * from card where username = ?";
+		Object[] params = new Object[]{username};
 		Map map = jtl.queryForMap(sql,params);
 		if (map==null) {
 			Utils.showDialog("卡号错误或为空"); return  false;}
 		if (!map.get("PASSWORD").equals(password)) {Utils.showDialog("密码错误或为空"); return false;}
-		if (isONorOFF(cardid))  {Utils.showDialog("该卡已经上机"); return  false;}
+		if (isONorOFF(username))  {Utils.showDialog("该卡已经上机"); return  false;}
 		Utils.showDialog("上机成功");
 		return true;
 	}
@@ -122,10 +133,10 @@ public class CardDaoImp implements CardDao {
 	/**
 	 * 检测卡号是否已经存在
 	 */
-	public int  presence (String username){
+	public Boolean exist(String username){
 		String sql = "select count(*) from card where username = ?";
 		Object [] params = new Object[]{username};
-		return jtl.queryForInt(sql, params);
+		return jtl.queryForInt(sql, params) != 0;
 	}
 
 	public static void main(String[] args) {
@@ -134,6 +145,6 @@ public class CardDaoImp implements CardDao {
 		Card card = new Card("tan贺", "622", 3.14, 1);
 		cdi.insertCard(card);
 
-		System.out.println(cdi.presence("tan贺"));
+		System.out.println(cdi.exist("tan贺"));
 	}
 }

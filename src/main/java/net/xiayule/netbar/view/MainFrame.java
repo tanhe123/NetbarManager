@@ -2,6 +2,7 @@ package net.xiayule.netbar.view;
 
 import net.xiayule.netbar.utils.Utils;
 import net.xiayule.netbar.view.dialog.CreateCardDialog;
+import net.xiayule.netbar.view.dialog.RechargeCardDialog;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -30,8 +31,6 @@ public class MainFrame extends JFrame {
 
     //todo 查询信息 {余额和，注销, 启用卡}
 
-
-
     public MainFrame() {
         this.init();
         this.addComponent();
@@ -53,14 +52,11 @@ public class MainFrame extends JFrame {
         cardRecharge.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //todo: 改成充值会员
-                JDialog dialog = new CreateCardDialog(MainFrame.this);
+                JDialog dialog = new RechargeCardDialog(MainFrame.this);
                 dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 dialog.setVisible(true);
             }
         });
-
-
-
     }
 
     private void addComponent() {
