@@ -5,7 +5,7 @@ CREATE TABLE card(
 	username VARCHAR(20) NOT NULL,
 	password VARCHAR(20) NOT NULL,
 	balance DOUBLE(8,2)
-);
+) charset utf8;;
 
 # 卡号自动从 1000 开始增长
 ALTER TABLE card auto_increment=1000;
@@ -14,8 +14,7 @@ CREATE TABLE computer(
 	computerid INTEGER PRIMARY KEY auto_increment,
 	# 有人上机就为上机人的id, 否则为0
 	state INTEGER NOT NULL
-#	remark VARCHAR(50)
-);
+) charset utf8;
 
 # 卡号自动从 1 开始增长
 ALTER TABLE computer auto_increment=1;
@@ -27,7 +26,7 @@ CREATE TABLE record(
 	begintime DATETIME NOT NULL,
 	endtime DATETIME,
 	fee DOUBLE(5,2)
-);
+) charset utf8;;
 
 INSERT INTO card(username, password, balance) VALUES('张三', '123', 100.00);
 INSERT INTO card(username, password, balance) VALUES('李四', '123', 100.00);

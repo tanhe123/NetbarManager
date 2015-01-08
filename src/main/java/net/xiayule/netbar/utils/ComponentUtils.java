@@ -14,4 +14,12 @@ public class ComponentUtils {
 
         return jTextField;
     }
+
+    public static JPasswordField createJpasswordField() {
+        JPasswordField jPasswordField = new JPasswordField(15);
+
+        jPasswordField.setMaximumSize(new Dimension(250, 25));
+
+        return jPasswordField;
+    }
 }

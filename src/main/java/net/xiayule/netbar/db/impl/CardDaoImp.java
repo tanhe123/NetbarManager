@@ -137,6 +137,7 @@ public class CardDaoImp implements CardDao {
 	 */
 	public Boolean exist(String username){
 		String sql = "select count(*) from card where username = ?";
+		System.out.println(username);
 		Object [] params = new Object[]{username};
 		return jtl.queryForInt(sql, params) != 0;
 	}

@@ -1,8 +1,10 @@
 package net.xiayule.netbar.domain;
 
+import com.oracle.deploy.update.UpdateCheck;
 import net.xiayule.netbar.db.ComputerDao;
 import net.xiayule.netbar.db.impl.ComputerDaoImp;
 
+import javax.swing.*;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
@@ -12,6 +14,8 @@ import java.util.List;
  */
 public class ComputerModel extends AbstractTableModel {
 
+    private JTable table; // 持有的 table 实例
+
     private static final String[] COLUMN_NAMES = {"机号", "状态", "上机人", "余额"};
     private static final Class<?>[] COLUMN_TYPES = {Integer.class, Integer.class, String.class, Double.class};
 
@@ -19,12 +23,14 @@ public class ComputerModel extends AbstractTableModel {
 
     private List<ComputerRow> computerRows;
 
-    public ComputerModel(List<ComputerRow> computerRows) {
-        this.computerRows = computerRows;
+    public ComputerModel(JTable table) {
+        this.table = table;
+        computerRows = computerDao.queryComputerRows();
     }
 
-    public ComputerModel() {
+    public void refresh() {
         computerRows = computerDao.queryComputerRows();
+        table.updateUI();
     }
 
     @Override
@@ -82,5 +88,13 @@ public class ComputerModel extends AbstractTableModel {
     @Override
     public void removeTableModelListener(TableModelListener l) {
 
+    }
+
+    public List<ComputerRow> getComputerRows() {
+        return computerRows;
+    }
+
+    public void setComputerRows(List<ComputerRow> computerRows) {
+        this.computerRows = computerRows;
     }
 }

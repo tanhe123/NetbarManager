@@ -4,6 +4,7 @@ import net.xiayule.netbar.db.ComputerDao;
 import net.xiayule.netbar.db.impl.ComputerDaoImp;
 import net.xiayule.netbar.domain.ComputerModel;
 import net.xiayule.netbar.utils.Utils;
+import net.xiayule.netbar.view.dialog.ComputerOnDialog;
 import net.xiayule.netbar.view.dialog.CreateCardDialog;
 import net.xiayule.netbar.view.dialog.RechargeCardDialog;
 
@@ -20,9 +21,13 @@ import java.awt.event.ActionListener;
 public class MainFrame extends JFrame {
     private JMenuBar menuBar = new JMenuBar();
 
-    // todo: 操作(上机，下级)
+    private JMenu commondMenu = new JMenu("操作");
     private JMenu computerMenu = new JMenu("机器管理");
     private JMenu cardMenu = new JMenu("会员");
+
+    // 操作
+    private JMenuItem commondOn = new JMenuItem("上机");
+    private JMenuItem commondOff = new JMenuItem("下机");
 
     // 计算机管理
     private JMenuItem computerAdd = new JMenuItem("新增机器");
@@ -38,6 +43,9 @@ public class MainFrame extends JFrame {
     // 组件
     JPanel computerPanel = new JPanel();
 
+    private JTable table;
+    private ComputerModel computerModel;
+
     //todo: 查询与统计
 
     //todo 查询信息 {余额和，注销, 启用卡}
@@ -49,31 +57,40 @@ public class MainFrame extends JFrame {
     }
 
     private void addListener() {
+        // 操作相关
+        commondOn.addActionListener(e ->{
+            JDialog dialog = new ComputerOnDialog(MainFrame.this);
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            dialog.setVisible(true);
+            computerModel.refresh();
+
+        });
+
         // 会员卡相关
-        cardAdd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JDialog dialog = new CreateCardDialog(MainFrame.this);
-                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                dialog.setVisible(true);
-            }
+        cardAdd.addActionListener(e -> {
+            JDialog dialog = new CreateCardDialog(MainFrame.this);
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            dialog.setVisible(true);
         });
 
         //充值
-        cardRecharge.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JDialog dialog = new RechargeCardDialog(MainFrame.this);
-                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                dialog.setVisible(true);
-            }
+        cardRecharge.addActionListener(e -> {
+            JDialog dialog = new RechargeCardDialog(MainFrame.this);
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            dialog.setVisible(true);
         });
     }
 
     private void addComponent() {
         this.setJMenuBar(menuBar);
 
+        menuBar.add(commondMenu);
         menuBar.add(computerMenu);
         menuBar.add(cardMenu);
+
+        // 操作菜单
+        commondMenu.add(commondOn);
+        commondMenu.add(commondOff);
 
         // 机器管理菜单
         computerMenu.add(computerAdd);
@@ -91,11 +108,6 @@ public class MainFrame extends JFrame {
         setTitle("网吧计费系统");
 
         initComponents();
-        setListener();
-    }
-
-    private void setListener() {
-        computerDao.getComputer();
     }
 
     private void initComponents() {
@@ -104,16 +116,10 @@ public class MainFrame extends JFrame {
     }
 
     public JScrollPane getTableScrollPanel() {
-        String[] columnNames = {"机号","状态", "上机人"};   //列名
+        table = new JTable();
+        computerModel = new ComputerModel(table);
+        table.setModel(computerModel);
 
-        String [][]tableVales={{"A1","B1"},{"A2","B2"},{"A3","B3"},{"A4","B4"},{"A5","B5"}}; //数据
-        TableModel tableModel = new DefaultTableModel(tableVales,columnNames) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        JTable table = new JTable(new ComputerModel());
         // 只能选中单行
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(table);
