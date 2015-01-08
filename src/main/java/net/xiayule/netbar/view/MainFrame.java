@@ -3,6 +3,7 @@ package net.xiayule.netbar.view;
 import net.xiayule.netbar.db.ComputerDao;
 import net.xiayule.netbar.db.impl.ComputerDaoImp;
 import net.xiayule.netbar.domain.ComputerModel;
+import net.xiayule.netbar.domain.ComputerRow;
 import net.xiayule.netbar.utils.Utils;
 import net.xiayule.netbar.view.dialog.ComputerOnDialog;
 import net.xiayule.netbar.view.dialog.CreateCardDialog;
@@ -56,30 +57,13 @@ public class MainFrame extends JFrame {
         this.addListener();
     }
 
-    private void addListener() {
-        // 操作相关
-        commondOn.addActionListener(e ->{
-            JDialog dialog = new ComputerOnDialog(MainFrame.this);
-            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            dialog.setVisible(true);
-            computerModel.refresh();
-
-        });
-
-        // 会员卡相关
-        cardAdd.addActionListener(e -> {
-            JDialog dialog = new CreateCardDialog(MainFrame.this);
-            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            dialog.setVisible(true);
-        });
-
-        //充值
-        cardRecharge.addActionListener(e -> {
-            JDialog dialog = new RechargeCardDialog(MainFrame.this);
-            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            dialog.setVisible(true);
-        });
+    /**
+     * 刷新数据信息，并显示
+     */
+    public void refresh() {
+        computerModel.refresh();
     }
+
 
     private void addComponent() {
         this.setJMenuBar(menuBar);
@@ -124,5 +108,49 @@ public class MainFrame extends JFrame {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(table);
         return scrollPane;
+    }
+
+    private void addListener() {
+        // 操作相关
+        commondOn.addActionListener(e ->{
+            Integer index = table.getSelectedRow();
+
+            if (index < 0) {
+                Utils.showDialog("请选定一个机器上机");
+                return;
+            }
+
+            ComputerRow computerRow = computerModel.getComputerRows().get(index);
+
+            if (computerRow.getState().equals(ComputerRow.STATUS_ON)) {
+                Utils.showDialog("请选择一个空闲的机器");
+                return;
+            }
+
+            JDialog dialog = new ComputerOnDialog(MainFrame.this, computerRow.getId());
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            dialog.setVisible(true);
+
+            refresh();
+            System.out.println("已fresh");
+        });
+
+        // 会员卡相关
+        cardAdd.addActionListener(e -> {
+            JDialog dialog = new CreateCardDialog(MainFrame.this);
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            dialog.setVisible(true);
+
+            refresh();
+        });
+
+        //充值
+        cardRecharge.addActionListener(e -> {
+            JDialog dialog = new RechargeCardDialog(MainFrame.this);
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            dialog.setVisible(true);
+
+            refresh();
+        });
     }
 }

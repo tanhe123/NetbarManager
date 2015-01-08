@@ -18,4 +18,10 @@ public interface ComputerDao {
 	 * @return
 	 */
 	public List<ComputerRow> queryComputerRows();
+	/**
+	 * 查看指定用户所上的机器
+	 * @param cardid
+	 * @return 如果没有上机，则返回null
+	 */
+	public Integer queryForComputerId(Integer cardid);
 }

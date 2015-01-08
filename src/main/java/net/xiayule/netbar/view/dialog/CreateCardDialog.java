@@ -5,8 +5,11 @@ import net.xiayule.netbar.db.impl.CardDaoImp;
 import net.xiayule.netbar.entity.Card;
 import net.xiayule.netbar.utils.BoxUtils;
 import net.xiayule.netbar.utils.ComponentUtils;
+import net.xiayule.netbar.utils.StringUtils;
 import net.xiayule.netbar.utils.Utils;
+import sun.swing.StringUIClientPropertyKey;
 
+import javax.rmi.CORBA.Util;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -46,7 +49,7 @@ public class CreateCardDialog extends JDialog {
 	private void init() {
 		this.setResizable(false);
 		setSize(400, 400);
-		this.setLocation(300, 200);
+		Utils.center(this);
 	}
 
 	private void addComponent() {
@@ -85,13 +88,13 @@ public class CreateCardDialog extends JDialog {
 
 		mainPanel.add(BoxUtils.createVerticalStrut());
 
-		// 状态
+		/*// 状态
 		Box stateBox= BoxUtils.createHorizontalBox();
 		stateBox.add(stateLabel);
 		stateBox.add(stateText);
 		mainPanel.add(stateBox);
 
-		mainPanel.add(BoxUtils.createVerticalStrut(40));
+		mainPanel.add(BoxUtils.createVerticalStrut(40));*/
 
 
 		// 按钮
@@ -116,16 +119,29 @@ public class CreateCardDialog extends JDialog {
 		});
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String password = passwordText.getText();
 				String username = usernameText.getText();
+				if (!StringUtils.hasText(username)) {
+					Utils.showDialog("用户名不能为空");
+					return;
+				}
+				String password = passwordText.getText();
+				if (!StringUtils.hasText(password)) {
+					Utils.showDialog("密码不能为空");
+					return;
+				}
+
+				if (!StringUtils.hasText(balanceText.getText())) {
+					Utils.showDialog("金额不能为空");
+					return;
+				}
 				double balance = Double.parseDouble(balanceText.getText());
-				int state = Integer.parseInt(stateText.getText());
 
 				Card card = new Card();
 				card.setPassword(password);
 				card.setUsername(username);
 				card.setBalance(balance);
 //				card.setState(state);
+
 				if (!cardDao.exist(usernameText.getText())) { // 如果不存在用户
 					//todo: 记录 log
 //					rdi.deleteReCord(card.getCardid());
@@ -133,8 +149,9 @@ public class CreateCardDialog extends JDialog {
 					Utils.showDialog("创建成功");
 					CreateCardDialog.this.dispose();
 				} else {
-					Utils.showDialog("创建失败");
-					CreateCardDialog.this.dispose();
+					Utils.showDialog("会员名已存在");
+					return;
+//					CreateCardDialog.this.dispose();
 				}
 			}
 		});

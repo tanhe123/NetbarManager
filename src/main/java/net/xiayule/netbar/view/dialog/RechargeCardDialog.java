@@ -37,7 +37,7 @@ public class RechargeCardDialog extends JDialog {
 	private void init() {
 		this.setResizable(false);
 		setSize(400, 200);
-		this.setLocation(300, 200);
+		Utils.center(this);
 	}
 
 	private void addComponent() {

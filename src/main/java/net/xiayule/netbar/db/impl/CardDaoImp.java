@@ -54,6 +54,12 @@ public class CardDaoImp implements CardDao {
 		jtl.update(sql,params);
 	}
 
+	public Integer getUserId(String username) {
+		String sql = "select cardid from card where username=?";
+		Object[] params = new Object[] {username};
+		return jtl.queryForObject(sql, params, Integer.class);
+	}
+
 	/**
 	 * 充值
 	 */
@@ -61,6 +67,12 @@ public class CardDaoImp implements CardDao {
 		String sql = "update card set balance = balance + ? where username=?";
 		Object[] params = new Object[] {balance, username};
 		jtl.update(sql, params);
+	}
+
+	public Double getBalance(String username) {
+		String sql = "select balance from card where username=?";
+		Object[] params = new Object[] {username};
+		return 	jtl.queryForObject(sql, params, Double.class);
 	}
 	
 	//根据上机状态 查询Card组
@@ -96,16 +108,11 @@ public class CardDaoImp implements CardDao {
 	//验证卡号，密码和上机状态
 	@Override
 	public boolean verify(String username, String password) {
-		//todo: count(*)
-		String sql = "select * from card where username = ?";
-		Object[] params = new Object[]{username};
-		Map map = jtl.queryForMap(sql,params);
-		if (map==null) {
-			Utils.showDialog("卡号错误或为空"); return  false;}
-		if (!map.get("PASSWORD").equals(password)) {Utils.showDialog("密码错误或为空"); return false;}
-		if (isONorOFF(username))  {Utils.showDialog("该卡已经上机"); return  false;}
-		Utils.showDialog("上机成功");
-		return true;
+		String sql = "select count(*) from card where username=? and password=?";
+
+		Object[] params = new Object[]{username, password};
+		Integer count= jtl.queryForObject(sql, params, Integer.class);
+		return count != 0;
 	}
 
 	//查询余额

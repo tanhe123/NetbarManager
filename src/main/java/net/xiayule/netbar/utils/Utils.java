@@ -1,5 +1,7 @@
 package net.xiayule.netbar.utils;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Calendar;
@@ -54,4 +56,5 @@ public class Utils {
 	public  static void showDialog(String s){
 		JOptionPane.showMessageDialog(null, s,"警告 ",JOptionPane.WARNING_MESSAGE);//
 	};
+
 }

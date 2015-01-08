@@ -26,7 +26,7 @@ CREATE TABLE record(
 	begintime DATETIME NOT NULL,
 	endtime DATETIME,
 	fee DOUBLE(5,2)
-) charset utf8;;
+) charset utf8;
 
 INSERT INTO card(username, password, balance) VALUES('张三', '123', 100.00);
 INSERT INTO card(username, password, balance) VALUES('李四', '123', 100.00);

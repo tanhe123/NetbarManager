@@ -49,6 +49,17 @@ public class ComputerDaoImp implements ComputerDao {
 		jtl.update(sql, params);
 	}
 
+	/**
+	 * 查看指定用户所上的机器
+	 * @param cardid
+	 * @return 如果没有上机，则返回null
+	 */
+	public Integer queryForComputerId(Integer cardid) {
+		String sql = "select computerid from computer where state=?";
+		Object[] params = new Object[]{cardid};
+		return jtl.queryForObject(sql, params, Integer.class);
+	}
+
 	//根据机器号判断该机器状态
 	@Override
 	public boolean isONorOFF(Integer computerid) {
@@ -68,7 +79,7 @@ public class ComputerDaoImp implements ComputerDao {
 		return (List<ComputerRow>) jtl.query(sql, new RowMapper<ComputerRow>() {
 			public ComputerRow mapRow(ResultSet rs, int arg1) throws SQLException {
 				return new ComputerRow(rs.getInt("computerid"),
-						rs.getInt("state") == 0 ? "空闲" : "上机中",
+						rs.getInt("state") == 0 ? ComputerRow.STATUS_OFF : ComputerRow.STATUS_ON,
 						rs.getString("username"), rs.getDouble("balance"));
 			}
 		});

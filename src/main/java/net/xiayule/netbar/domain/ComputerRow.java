@@ -6,6 +6,9 @@ import net.xiayule.netbar.entity.Computer;
  * Created by tan on 15-1-8.
  */
 public class ComputerRow {
+    public static final String STATUS_ON = "上机中";
+    public static final String STATUS_OFF = "空闲";
+
     /**
      * 机号
      */
