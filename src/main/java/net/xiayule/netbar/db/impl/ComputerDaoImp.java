@@ -3,6 +3,7 @@ package net.xiayule.netbar.db.impl;
 
 import net.xiayule.netbar.db.ComputerDao;
 import net.xiayule.netbar.db.JdbcManager;
+import net.xiayule.netbar.domain.ComputerRow;
 import net.xiayule.netbar.entity.Computer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -10,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ComputerDaoImp implements ComputerDao {
 	private JdbcTemplate jtl;
@@ -23,10 +25,20 @@ public class ComputerDaoImp implements ComputerDao {
 	@SuppressWarnings("unchecked")
 	public ArrayList<Computer> getComputerByState(int state) {
 		String sql = "select * from computer where state = ?"; 
-		return (ArrayList<Computer>) jtl.query(sql, new Object[]{state}, new RowMapper() {
-				public Object mapRow(ResultSet rs, int arg1) throws SQLException {
+		return (ArrayList<Computer>) jtl.query(sql, new Object[]{state}, new RowMapper<Computer>() {
+				public Computer mapRow(ResultSet rs, int arg1) throws SQLException {
 				return new Computer(rs.getInt("computerid"),rs.getInt("state"));
 				}
+		});
+	}
+
+	public ArrayList<Computer> getComputer() {
+		String sql = "select * from computer";
+		return (ArrayList<Computer>) jtl.query(sql, new RowMapper<Computer>() {
+			@Override
+			public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return new Computer(rs.getInt("computerid"), rs.getInt("state"));
+			}
 		});
 	}
 	
@@ -44,6 +56,22 @@ public class ComputerDaoImp implements ComputerDao {
 		Object[] params = new Object[]{computerid};
 		int state = jtl.queryForInt(sql, params);
 		return state == 1 ? true : false;
+	}
+
+	/**
+	 * 获取将要在表中显示的信息
+	 */
+	public List<ComputerRow> queryComputerRows() {
+		String sql = "select computerid, computer.state, username, balance from computer " +
+				"left join card on computer.computerid=card.state";
+
+		return (List<ComputerRow>) jtl.query(sql, new RowMapper<ComputerRow>() {
+			public ComputerRow mapRow(ResultSet rs, int arg1) throws SQLException {
+				return new ComputerRow(rs.getInt("computerid"),
+						rs.getInt("state") == 0 ? "空闲" : "上机中",
+						rs.getString("username"), rs.getDouble("balance"));
+			}
+		});
 	}
 
 	public static void main(String[] args) {

@@ -5,6 +5,9 @@ public class Card {
 	private String username;
 	private String password;
 	private double balance;
+	/**
+	 * 记录所上的电脑的 id
+ 	 */
 	private int state;
 
 	public Card() {

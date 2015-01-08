@@ -8,6 +8,7 @@ import net.xiayule.netbar.utils.ComponentUtils;
 import net.xiayule.netbar.utils.Utils;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -82,7 +83,7 @@ public class RechargeCardDialog extends JDialog {
 				card.setUsername(username);
 				card.setBalance(balance);
 
-				if (cardDao.exist(userNameText.getText())) {
+				if (cardDao.exist(userNameText.getText().trim())) {
 					cardDao.rechargeCard(username, balance);
 					// todo: 添加log
 					Utils.showDialog("充值成功");

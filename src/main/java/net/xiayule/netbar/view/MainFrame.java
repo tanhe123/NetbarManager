@@ -1,10 +1,16 @@
 package net.xiayule.netbar.view;
 
+import net.xiayule.netbar.db.ComputerDao;
+import net.xiayule.netbar.db.impl.ComputerDaoImp;
+import net.xiayule.netbar.domain.ComputerModel;
 import net.xiayule.netbar.utils.Utils;
 import net.xiayule.netbar.view.dialog.CreateCardDialog;
 import net.xiayule.netbar.view.dialog.RechargeCardDialog;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,6 +32,11 @@ public class MainFrame extends JFrame {
     // 会员管理
     private JMenuItem cardAdd = new JMenuItem("新会员");
     private JMenuItem cardRecharge = new JMenuItem("充值会员");
+
+    private ComputerDao computerDao = new ComputerDaoImp();
+
+    // 组件
+    JPanel computerPanel = new JPanel();
 
     //todo: 查询与统计
 
@@ -78,9 +89,34 @@ public class MainFrame extends JFrame {
         setSize(500, 600);
         Utils.center(this);
         setTitle("网吧计费系统");
+
+        initComponents();
+        setListener();
+    }
+
+    private void setListener() {
+        computerDao.getComputer();
     }
 
     private void initComponents() {
+        getContentPane().add(getTableScrollPanel(), BorderLayout.CENTER);
 
+    }
+
+    public JScrollPane getTableScrollPanel() {
+        String[] columnNames = {"机号","状态", "上机人"};   //列名
+
+        String [][]tableVales={{"A1","B1"},{"A2","B2"},{"A3","B3"},{"A4","B4"},{"A5","B5"}}; //数据
+        TableModel tableModel = new DefaultTableModel(tableVales,columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        JTable table = new JTable(new ComputerModel());
+        // 只能选中单行
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane scrollPane = new JScrollPane(table);
+        return scrollPane;
     }
 }

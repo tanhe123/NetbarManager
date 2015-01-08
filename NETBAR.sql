@@ -5,7 +5,6 @@ CREATE TABLE card(
 	username VARCHAR(20) NOT NULL,
 	password VARCHAR(20) NOT NULL,
 	balance DOUBLE(8,2),
-# 记录所上的电脑的 id
 	state INTEGER NOT NULL
 );
 
