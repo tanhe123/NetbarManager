@@ -2,7 +2,11 @@ package net.xiayule.netbar.entity;
 
 public class Computer {
 	private Integer computerid;
-	private int state;
+
+	/**
+	 * 0 为空闲，否则为上机人的id
+	 */
+	private Integer state;
 	public Computer() {
 	}
 	public Computer(Integer computerid, int state) {
@@ -24,10 +28,10 @@ public class Computer {
 	public void setState(int state) {
 		this.state = state;
 	}
-	
+
 	public String toString() {
 		return computerid + " : " +state;
 	}
 
-	
+
 }

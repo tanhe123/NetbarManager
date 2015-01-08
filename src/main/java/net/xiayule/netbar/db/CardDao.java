@@ -10,7 +10,7 @@ public interface CardDao {
 	public void rechargeCard(String username, Double balance);
 	public void chargeCard(Integer cardid, double fee);
 	public void deleteCard(Integer cardid);
-	public ArrayList<Card> searchCardByState(int state);
+//	public ArrayList<Card> searchCardByState(int state);
 	public boolean isONorOFF(String username);
 	public void updateState(Integer cardid, int state);
 	public boolean verify(String username, String password);

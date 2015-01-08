@@ -125,7 +125,7 @@ public class CreateCardDialog extends JDialog {
 				card.setPassword(password);
 				card.setUsername(username);
 				card.setBalance(balance);
-				card.setState(state);
+//				card.setState(state);
 				if (!cardDao.exist(usernameText.getText())) { // 如果不存在用户
 					//todo: 记录 log
 //					rdi.deleteReCord(card.getCardid());

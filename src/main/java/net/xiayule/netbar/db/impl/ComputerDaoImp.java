@@ -63,7 +63,7 @@ public class ComputerDaoImp implements ComputerDao {
 	 */
 	public List<ComputerRow> queryComputerRows() {
 		String sql = "select computerid, computer.state, username, balance from computer " +
-				"left join card on computer.computerid=card.state";
+				"left join card on computer.state=card.cardid";
 
 		return (List<ComputerRow>) jtl.query(sql, new RowMapper<ComputerRow>() {
 			public ComputerRow mapRow(ResultSet rs, int arg1) throws SQLException {

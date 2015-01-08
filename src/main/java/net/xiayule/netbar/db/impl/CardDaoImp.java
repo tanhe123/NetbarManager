@@ -29,9 +29,9 @@ public class CardDaoImp implements CardDao {
 	//新建卡
 	@Override
 	public void insertCard(Card card) {
-		String sql = "insert into card(username, password, balance, state) values(?,?,?,?)";
+		String sql = "insert into card(username, password, balance) values(?,?,?)";
 		Object[] params = new Object[] {card.getUsername(),card.getPassword(),
-				card.getBalance(),card.getState()};
+				card.getBalance()};
 		jtl.update(sql,params);
 	}
 
@@ -64,7 +64,7 @@ public class CardDaoImp implements CardDao {
 	}
 	
 	//根据上机状态 查询Card组
-	@SuppressWarnings("unchecked")
+/*	@SuppressWarnings("unchecked")
 	@Override
 	public ArrayList<Card> searchCardByState(int state) {
 		String sql = "select * from card where state = ?";
@@ -74,7 +74,7 @@ public class CardDaoImp implements CardDao {
 						rs.getString("password"),rs.getDouble("balance"),rs.getInt("state"));
 			}
 		});
-	}
+	}*/
 	
 	//根据卡号判断状态
 	@Override
@@ -117,11 +117,13 @@ public class CardDaoImp implements CardDao {
 		Object o = jtl.queryForObject(sql,BigDecimal.class, new Object[]{cardid});
 		return ((BigDecimal)o).doubleValue();
 	}
+
 //	public static void main(String[] args) {
 //		CardDaoImp cdi = new CardDaoImp();
 //		double a = cdi.getBalanceByCardid("CARD001");
 //		System.out.println(a);
 //	}
+
 	//改变卡余额
 	@Override
 	public void UpdateBalanceByCard(Integer cardid, double balance) {
@@ -142,7 +144,7 @@ public class CardDaoImp implements CardDao {
 	public static void main(String[] args) {
 		CardDaoImp cdi = new CardDaoImp();
 
-		Card card = new Card("tan贺", "622", 3.14, 1);
+		Card card = new Card("tan贺", "622", 3.14);
 		cdi.insertCard(card);
 
 		System.out.println(cdi.exist("tan贺"));
