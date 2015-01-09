@@ -52,11 +52,19 @@ public class ComputerDaoImp implements ComputerDao {
 	/**
 	 * 查看指定用户所上的机器
 	 * @param cardid
-	 * @return 如果没有上机，则返回null
+	 * @return 如果没有上机，则返回0
 	 */
 	public Integer queryForComputerId(Integer cardid) {
-		String sql = "select computerid from computer where state=?";
+		String sql = "select count(computerid) from computer where state=?";
+
 		Object[] params = new Object[]{cardid};
+
+		Integer count = jtl.queryForObject(sql, params, Integer.class);
+		if (count == 0) {
+			return 0;
+		}
+
+		sql = "select computerid from computer where state=?";
 		return jtl.queryForObject(sql, params, Integer.class);
 	}
 

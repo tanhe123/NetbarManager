@@ -1,5 +1,6 @@
 package net.xiayule.netbar.entity;
 
+import net.xiayule.netbar.utils.TimeUtils;
 import net.xiayule.netbar.utils.Utils;
 
 import java.util.Calendar;
@@ -71,7 +72,7 @@ public class Record {
 	
 	public String toString() {
 		
-		return cardid +" " + computerid +" " + Utils.dealCalendar(begintime) + " " +Utils.dealCalendar(endtime) + " " +fee;
+		return cardid +" " + computerid +" " + TimeUtils.formateCalendar(begintime) + " " +TimeUtils.formateCalendar(endtime) + " " +fee;
 	}
 
 }

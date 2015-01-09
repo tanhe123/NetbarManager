@@ -19,5 +19,6 @@ public interface CardDao {
 	public void UpdateBalanceByCard(Integer cardid, double balance);
 	public Boolean exist(String username);
 	public Double getBalance(String username);
+	public void subchargeCard(String username, Double balance);
 
 }

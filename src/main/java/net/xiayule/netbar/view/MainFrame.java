@@ -1,20 +1,23 @@
 package net.xiayule.netbar.view;
 
+import net.xiayule.netbar.db.CardDao;
 import net.xiayule.netbar.db.ComputerDao;
+import net.xiayule.netbar.db.RecordDao;
+import net.xiayule.netbar.db.impl.CardDaoImp;
 import net.xiayule.netbar.db.impl.ComputerDaoImp;
+import net.xiayule.netbar.db.impl.RecordDaoImp;
 import net.xiayule.netbar.domain.ComputerModel;
 import net.xiayule.netbar.domain.ComputerRow;
+import net.xiayule.netbar.utils.TimeUtils;
 import net.xiayule.netbar.utils.Utils;
+import net.xiayule.netbar.utils.ViewUtils;
 import net.xiayule.netbar.view.dialog.ComputerOnDialog;
 import net.xiayule.netbar.view.dialog.CreateCardDialog;
 import net.xiayule.netbar.view.dialog.RechargeCardDialog;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 /**
  * Created by tan on 15-1-5.
@@ -40,6 +43,8 @@ public class MainFrame extends JFrame {
     private JMenuItem cardRecharge = new JMenuItem("充值会员");
 
     private ComputerDao computerDao = new ComputerDaoImp();
+    private RecordDao recordDao = new RecordDaoImp();
+    private CardDao cardDao = new CardDaoImp();
 
     // 组件
     JPanel computerPanel = new JPanel();
@@ -58,7 +63,7 @@ public class MainFrame extends JFrame {
     }
 
     /**
-     * 刷新数据信息，并显示
+     * 刷新table数据信息，并显示
      */
     public void refresh() {
         computerModel.refresh();
@@ -88,7 +93,7 @@ public class MainFrame extends JFrame {
 
     private void init() {
         setSize(500, 600);
-        Utils.center(this);
+        ViewUtils.center(this);
         setTitle("网吧计费系统");
 
         initComponents();
@@ -112,6 +117,8 @@ public class MainFrame extends JFrame {
 
     private void addListener() {
         // 操作相关
+
+        // 上机
         commondOn.addActionListener(e ->{
             Integer index = table.getSelectedRow();
 
@@ -132,7 +139,42 @@ public class MainFrame extends JFrame {
             dialog.setVisible(true);
 
             refresh();
-            System.out.println("已fresh");
+        });
+
+        commondOff.addActionListener(e -> {
+            Integer index = table.getSelectedRow();
+
+            if (index < 0) {
+                Utils.showDialog("请选定一个机器上机");
+                return;
+            }
+
+            ComputerRow computerRow = computerModel.getComputerRows().get(index);
+
+            Integer computerId = computerRow.getId();
+
+            // 下机
+            computerDao.update(computerId, 0);
+
+            // 计算费用
+            Calendar beginTime = recordDao.queryBeginTime(computerId);
+            Calendar endTime = Calendar.getInstance();
+            Double fee = Utils.calc(beginTime, endTime);
+
+            // 记录下机时间和费用
+            recordDao.update(computerId, fee, endTime);
+
+            // 减去费用
+            String username = computerRow.getUsername().trim();
+            cardDao.subchargeCard(username, fee);
+
+            refresh();
+
+            // 显示详细信息
+            Utils.showDialog(computerRow.getUsername() + " 下机成功\n"
+                    + "上机时间: " + TimeUtils.formateCalendar(beginTime) + "\n"
+                    + "下机时间: " + TimeUtils.formateCalendar(endTime) + "\n"
+                    + "费用合计: " + fee);
         });
 
         // 会员卡相关

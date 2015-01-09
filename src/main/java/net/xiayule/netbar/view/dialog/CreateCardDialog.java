@@ -3,10 +3,7 @@ package net.xiayule.netbar.view.dialog;
 import net.xiayule.netbar.db.CardDao;
 import net.xiayule.netbar.db.impl.CardDaoImp;
 import net.xiayule.netbar.entity.Card;
-import net.xiayule.netbar.utils.BoxUtils;
-import net.xiayule.netbar.utils.ComponentUtils;
-import net.xiayule.netbar.utils.StringUtils;
-import net.xiayule.netbar.utils.Utils;
+import net.xiayule.netbar.utils.*;
 import sun.swing.StringUIClientPropertyKey;
 
 import javax.rmi.CORBA.Util;
@@ -49,7 +46,7 @@ public class CreateCardDialog extends JDialog {
 	private void init() {
 		this.setResizable(false);
 		setSize(400, 400);
-		Utils.center(this);
+		ViewUtils.center(this);
 	}
 
 	private void addComponent() {

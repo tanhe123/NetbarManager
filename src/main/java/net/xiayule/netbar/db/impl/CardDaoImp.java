@@ -69,6 +69,16 @@ public class CardDaoImp implements CardDao {
 		jtl.update(sql, params);
 	}
 
+	/**
+	 * 写成两个方便日志 计费
+	 */
+	public void subchargeCard(String username, Double balance) {
+		String sql = "update card set balance = balance - ? where username=?";
+		Object[] params = new Object[] {balance, username};
+		jtl.update(sql, params);
+	}
+
+
 	public Double getBalance(String username) {
 		String sql = "select balance from card where username=?";
 		Object[] params = new Object[] {username};

@@ -6,6 +6,7 @@ import net.xiayule.netbar.entity.Card;
 import net.xiayule.netbar.utils.BoxUtils;
 import net.xiayule.netbar.utils.ComponentUtils;
 import net.xiayule.netbar.utils.Utils;
+import net.xiayule.netbar.utils.ViewUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -37,7 +38,7 @@ public class RechargeCardDialog extends JDialog {
 	private void init() {
 		this.setResizable(false);
 		setSize(400, 200);
-		Utils.center(this);
+		ViewUtils.center(this);
 	}
 
 	private void addComponent() {

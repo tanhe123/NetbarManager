@@ -36,8 +36,8 @@ INSERT INTO card(username, password, balance) VALUES('小强', '123', 100.0);
 INSERT INTO card(username, password, balance) VALUES('四爷', '123', 100.0);
 
 
-INSERT INTO computer(state) VALUES(1000);
-INSERT INTO computer(state) VALUES(1001);
+INSERT INTO computer(state) VALUES(0);
+INSERT INTO computer(state) VALUES(0);
 INSERT INTO computer(state) VALUES(0);
 INSERT INTO computer(state) VALUES(0);
 INSERT INTO computer(state) VALUES(0);

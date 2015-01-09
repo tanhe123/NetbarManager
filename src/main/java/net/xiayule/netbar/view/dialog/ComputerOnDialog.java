@@ -2,15 +2,15 @@ package net.xiayule.netbar.view.dialog;
 
 import net.xiayule.netbar.db.CardDao;
 import net.xiayule.netbar.db.ComputerDao;
+import net.xiayule.netbar.db.RecordDao;
 import net.xiayule.netbar.db.impl.CardDaoImp;
 import net.xiayule.netbar.db.impl.ComputerDaoImp;
-import net.xiayule.netbar.utils.BoxUtils;
-import net.xiayule.netbar.utils.ComponentUtils;
-import net.xiayule.netbar.utils.StringUtils;
-import net.xiayule.netbar.utils.Utils;
+import net.xiayule.netbar.db.impl.RecordDaoImp;
+import net.xiayule.netbar.utils.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Calendar;
 
 /**
  * Created by tan on 15-1-8.
@@ -29,6 +29,7 @@ public class ComputerOnDialog extends JDialog {
 
     private CardDao cardDao = new CardDaoImp();
     private ComputerDao computerDao = new ComputerDaoImp();
+    private RecordDao recordDao = new RecordDaoImp();
 
     private final Integer computerId;
 
@@ -73,7 +74,7 @@ public class ComputerOnDialog extends JDialog {
             // 检查是否已在其他机器上上机
             Integer onComputerId = computerDao.queryForComputerId(userId);
 
-            if (onComputerId != null) {
+            if (onComputerId != 0) {
                 Utils.showDialog("该用户已经在" + onComputerId + "号机上机");
                 return;
             }
@@ -81,7 +82,8 @@ public class ComputerOnDialog extends JDialog {
             // 更新电脑状态
             computerDao.update(computerId, userId);
 
-            //todo: 记录log
+            //todo: 记录上机log
+            recordDao.insert(userId, computerId, Calendar.getInstance());
 
             this.dispose();
         });
@@ -120,7 +122,7 @@ public class ComputerOnDialog extends JDialog {
     private void init() {
         this.setResizable(false);
         setSize(300, 200);
-        Utils.center(this);
+        ViewUtils.center(this);
     }
 
 }
