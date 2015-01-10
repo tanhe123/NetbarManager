@@ -12,6 +12,7 @@ import net.xiayule.netbar.domain.ComputerModel;
 import net.xiayule.netbar.domain.ComputerRow;
 import net.xiayule.netbar.domain.RecordModel;
 import net.xiayule.netbar.utils.*;
+import net.xiayule.netbar.view.dialog.ComputerAddDialog;
 import net.xiayule.netbar.view.dialog.ComputerOnDialog;
 import net.xiayule.netbar.view.dialog.CreateCardDialog;
 import net.xiayule.netbar.view.dialog.RechargeCardDialog;
@@ -190,6 +191,16 @@ public class MainFrame extends JFrame {
     private void addListener() {
         // 操作相关
 
+        // 计算机相关
+
+        computerAdd.addActionListener(e -> {
+            JDialog dialog = new ComputerAddDialog(MainFrame.this);
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            dialog.setVisible(true);
+
+            refreshComputerMgrModel();
+        });
+
         // 上机
         commondOn.addActionListener(e ->{
             Integer index = computerMgrTable.getSelectedRow();
@@ -282,7 +293,7 @@ public class MainFrame extends JFrame {
             }
 
             List<Record> recordList = recordDao.queryRecordByUsername(username);
-            //todo:  时间不对
+
             // 填入数据，并显示
             recordMgrModel.setRecordList(recordList);
         });

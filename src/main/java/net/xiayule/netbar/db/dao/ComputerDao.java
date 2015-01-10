@@ -24,4 +24,7 @@ public interface ComputerDao {
 	 * @return 如果没有上机，则返回null
 	 */
 	public Integer queryForComputerId(Integer cardid);
+
+	public void insertComputer();
+
 }

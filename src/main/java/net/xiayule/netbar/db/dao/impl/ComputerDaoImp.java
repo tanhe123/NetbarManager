@@ -41,6 +41,11 @@ public class ComputerDaoImp implements ComputerDao {
 			}
 		});
 	}
+
+	public void insertComputer() {
+		String sql = "insert into computer(state) values(0)";
+		jtl.update(sql);
+	}
 	
 	//更改机器状态
 	public void update(Integer computerid, int state) {
