@@ -64,10 +64,15 @@ public class RecordDaoImp implements RecordDao {
 	}
 
 
+	/**
+	 * 根据username查询上机记录，但是并不包括正在上机（endtime为nhull) 的记录
+	 * @param username
+	 * @return
+	 */
 	public List<Record> queryRecordByUsername(String username) {
 
 		String sql = "select recordid, computerid, begintime, endtime, fee from record, card " +
-				"where record.cardid=card.cardid and username='" + username + "'";
+				"where record.cardid=card.cardid and username='" + username + "' and endtime is not null";
 
 		return (List<Record>) jtl.query(sql, new RowMapper<Record>() {
 			@Override
@@ -79,6 +84,8 @@ public class RecordDaoImp implements RecordDao {
 				Calendar beginTime =  Calendar.getInstance();
 				beginTime.setTime(rs.getTimestamp("begintime"));
 
+
+				// endTime 有可能为空
 				Calendar endTime =  Calendar.getInstance();
 				endTime.setTime(rs.getTimestamp("endtime"));
 

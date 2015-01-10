@@ -12,7 +12,8 @@ public class TimeUtils {
 
     //Calendar类型日期数据 转换为String类型日期
     public static String formateCalendar(Calendar c) {
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        // HH 表示24小时制， hh 表示12小时制
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String date = sf.format(c.getTime());
 

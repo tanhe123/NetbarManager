@@ -16,7 +16,7 @@ public class ComputerModel extends AbstractTableModel {
     private JTable table; // 持有的 table 实例
 
     private static final String[] COLUMN_NAMES = {"机号", "状态", "上机人", "余额"};
-    private static final Class<?>[] COLUMN_TYPES = {Integer.class, Integer.class, String.class, Double.class};
+    private static final Class<?>[] COLUMN_TYPES = {String.class, String.class, String.class, String.class};
 
     private ComputerDao computerDao = new ComputerDaoImp();
 
