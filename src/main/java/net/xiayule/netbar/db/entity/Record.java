@@ -1,7 +1,6 @@
-package net.xiayule.netbar.entity;
+package net.xiayule.netbar.db.entity;
 
 import net.xiayule.netbar.utils.TimeUtils;
-import net.xiayule.netbar.utils.Utils;
 
 import java.util.Calendar;
 
@@ -13,9 +12,10 @@ public class Record {
 	private Calendar endtime;
 	private double fee;
 	public Record() {
+
 	}
 	public Record(Integer recordid, Integer cardid, Integer computerid,
-			Calendar begintime, Calendar endtime, int fee) {
+			Calendar begintime, Calendar endtime, Double fee) {
 		this.recordid = recordid;
 		this.cardid = cardid;
 		this.computerid = computerid;
@@ -23,6 +23,12 @@ public class Record {
 		this.endtime = endtime;
 		this.fee = fee;
 	}
+
+	public Record(Integer recordid, Integer computerid,
+				  Calendar begintime, Calendar endtime, Double fee) {
+		this(recordid, null, computerid, begintime, endtime, fee);
+	}
+
 	public int getRecordid() {
 		return recordid;
 	}
@@ -71,7 +77,6 @@ public class Record {
 	}
 	
 	public String toString() {
-		
 		return cardid +" " + computerid +" " + TimeUtils.formateCalendar(begintime) + " " +TimeUtils.formateCalendar(endtime) + " " +fee;
 	}
 

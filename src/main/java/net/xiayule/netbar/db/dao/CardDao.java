@@ -1,9 +1,7 @@
-package net.xiayule.netbar.db;
+package net.xiayule.netbar.db.dao;
 
 
-import net.xiayule.netbar.entity.Card;
-
-import java.util.ArrayList;
+import net.xiayule.netbar.db.entity.Card;
 
 public interface CardDao {
 	public void insertCard(Card card);

@@ -1,4 +1,4 @@
-package net.xiayule.netbar.db;
+package net.xiayule.netbar.db.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -13,7 +13,7 @@ public class JdbcManager {
 
     public static JdbcTemplate getJdbctemplate() {
         if (jdbcTemplate == null) {
-            DriverManagerDataSource dataSource=new DriverManagerDataSource();
+            DriverManagerDataSource dataSource = new DriverManagerDataSource();
             dataSource.setDriverClassName("com.mysql.jdbc.Driver");
             dataSource.setUrl("jdbc:mysql://localhost:3306/netbar?useUnicode=true&characterEncoding=utf8");
             dataSource.setUsername("root");

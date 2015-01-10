@@ -1,4 +1,4 @@
-package net.xiayule.netbar.entity;
+package net.xiayule.netbar.db.entity;
 
 public class Card {
 	private Integer cardid;

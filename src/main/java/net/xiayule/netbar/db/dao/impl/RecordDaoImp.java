@@ -1,15 +1,21 @@
-package net.xiayule.netbar.db.impl;
+package net.xiayule.netbar.db.dao.impl;
 
 
-import net.xiayule.netbar.db.JdbcManager;
-import net.xiayule.netbar.db.RecordDao;
+import net.xiayule.netbar.db.dao.JdbcManager;
+import net.xiayule.netbar.db.dao.RecordDao;
 
+import net.xiayule.netbar.db.entity.Record;
 import net.xiayule.netbar.utils.TimeUtils;
-import net.xiayule.netbar.utils.Utils;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import sun.nio.cs.US_ASCII;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Wrapper;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class RecordDaoImp implements RecordDao {
 	private JdbcTemplate jtl;
@@ -20,7 +26,6 @@ public class RecordDaoImp implements RecordDao {
 		jtl = JdbcManager.getJdbctemplate();
 
 	}
-
 
 	/**
 	 * 	登入时，插入一条记录
@@ -35,10 +40,10 @@ public class RecordDaoImp implements RecordDao {
 	public Calendar queryBeginTime(Integer computerId) {
 		String sql = "select begintime from record where computerid = ? and endtime is null";
 		Object[] params = new Object[]{computerId};
-		Date endTime = jtl.queryForObject(sql, params, Date.class);
+		Date beginTime = jtl.queryForObject(sql, params, Date.class);
 
 		Calendar c =  Calendar.getInstance();
-		c.setTime(endTime);
+		c.setTime(beginTime);
 
 		return c;
 	}
@@ -59,38 +64,34 @@ public class RecordDaoImp implements RecordDao {
 	}
 
 
+	public List<Record> queryRecordByUsername(String username) {
 
-	//通过记录号查找记录
-	/*public Record getRecordByRecordid(int recordid) {
-		String sql = "select * from record where recordid = ? ";
-		Object[] params = new Object[]{recordid};
-		Map map = jtl.queryForMap(sql, params);
-		if (map==null) return null;
-		Record record = new Record();
-		record.setRecordid(((BigDecimal)map.get("RECORDID")).intValue());
-		record.setCardid((String)map.get("CARDID"));
-		record.setComputerid((String)map.get("COMPUTERID"));
-		record.setBegintime(Utils.recoveryCalendar((String)map.get("BEGINTIME")));
-		record.setEndtime(Utils.recoveryCalendar((String)map.get("ENDTIME")));
-		record.setFee(((BigDecimal)map.get("FEE")).doubleValue());
-		return record;
-	}*/
+		String sql = "select recordid, computerid, begintime, endtime, fee from record, card " +
+				"where record.cardid=card.cardid and username='" + username + "'";
 
-	//通过机器号来查记录
-/*	@Override
-	public Record getRecord(String computerid) {
-		String sql = "select * from record where computerid = ? and endtime is null";
-		Object[] params = new Object[]{computerid};
-		Map map = jtl.queryForMap(sql,params);
-		
-		if (map==null) return null;
-		Record record = new Record();
-		record.setRecordid(((BigDecimal)map.get("RECORDID")).intValue());
-		record.setCardid((String)map.get("CARDID"));
-		record.setComputerid((String)map.get("COMPUTERID"));
-		record.setBegintime(Utils.recoveryCalendar((String)map.get("BEGINTIME")));
-		return record;
-	}*/
+		return (List<Record>) jtl.query(sql, new RowMapper<Record>() {
+			@Override
+			public Record mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+				Integer recordId = rs.getInt("recordid");
+				Integer computerId = rs.getInt("computerid");
+
+				Calendar beginTime =  Calendar.getInstance();
+				beginTime.setTime(rs.getTimestamp("begintime"));
+
+				Calendar endTime =  Calendar.getInstance();
+				endTime.setTime(rs.getTimestamp("endtime"));
+
+				Double fee = rs.getDouble("fee");
+
+				return new Record(recordId,
+						computerId,
+						beginTime,
+						endTime,
+						fee);
+			}
+		});
+	}
 
 	//删除记录
 	@Override

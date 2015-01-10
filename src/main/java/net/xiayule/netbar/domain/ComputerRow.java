@@ -1,7 +1,5 @@
 package net.xiayule.netbar.domain;
 
-import net.xiayule.netbar.entity.Computer;
-
 /**
  * Created by tan on 15-1-8.
  */

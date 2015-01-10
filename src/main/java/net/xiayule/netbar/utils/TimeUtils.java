@@ -1,5 +1,7 @@
 package net.xiayule.netbar.utils;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -15,5 +17,13 @@ public class TimeUtils {
         String date = sf.format(c.getTime());
 
         return date;
+    }
+
+    public static String miliSecondToMinite(long miliSecond) {
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        double minite = miliSecond / 1000.0 / 60;
+
+        return df.format(minite);
     }
 }

@@ -1,4 +1,4 @@
-package net.xiayule.netbar.entity;
+package net.xiayule.netbar.db.entity;
 
 public class Computer {
 	private Integer computerid;
@@ -8,6 +8,7 @@ public class Computer {
 	 */
 	private Integer state;
 	public Computer() {
+
 	}
 	public Computer(Integer computerid, int state) {
 		this.computerid = computerid;
@@ -32,6 +33,4 @@ public class Computer {
 	public String toString() {
 		return computerid + " : " +state;
 	}
-
-
 }

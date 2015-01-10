@@ -1,7 +1,7 @@
-package net.xiayule.netbar.db;
+package net.xiayule.netbar.db.dao;
 
 import net.xiayule.netbar.domain.ComputerRow;
-import net.xiayule.netbar.entity.Computer;
+import net.xiayule.netbar.db.entity.Computer;
 
 import java.util.ArrayList;
 import java.util.List;

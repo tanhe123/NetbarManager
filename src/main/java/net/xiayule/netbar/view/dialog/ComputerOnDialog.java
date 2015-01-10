@@ -1,11 +1,11 @@
 package net.xiayule.netbar.view.dialog;
 
-import net.xiayule.netbar.db.CardDao;
-import net.xiayule.netbar.db.ComputerDao;
-import net.xiayule.netbar.db.RecordDao;
-import net.xiayule.netbar.db.impl.CardDaoImp;
-import net.xiayule.netbar.db.impl.ComputerDaoImp;
-import net.xiayule.netbar.db.impl.RecordDaoImp;
+import net.xiayule.netbar.db.dao.CardDao;
+import net.xiayule.netbar.db.dao.ComputerDao;
+import net.xiayule.netbar.db.dao.RecordDao;
+import net.xiayule.netbar.db.dao.impl.CardDaoImp;
+import net.xiayule.netbar.db.dao.impl.ComputerDaoImp;
+import net.xiayule.netbar.db.dao.impl.RecordDaoImp;
 import net.xiayule.netbar.utils.*;
 
 import javax.swing.*;
@@ -62,7 +62,6 @@ public class ComputerOnDialog extends JDialog {
 
             // 是否还有余额
             Double balance = cardDao.getBalance(username);
-            System.out.println(balance);
             if (balance < 0.005) {
                 Utils.showDialog("余额不足，请充值");
                 return;
@@ -82,7 +81,6 @@ public class ComputerOnDialog extends JDialog {
             // 更新电脑状态
             computerDao.update(computerId, userId);
 
-            //todo: 记录上机log
             recordDao.insert(userId, computerId, Calendar.getInstance());
 
             this.dispose();

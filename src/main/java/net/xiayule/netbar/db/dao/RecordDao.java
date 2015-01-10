@@ -1,9 +1,9 @@
-package net.xiayule.netbar.db;
+package net.xiayule.netbar.db.dao;
 
-import net.xiayule.netbar.entity.Record;
+import net.xiayule.netbar.db.entity.Record;
 
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
 public interface RecordDao {
 	public void insert(Integer cardid, Integer computerid, Calendar begintime);
@@ -11,5 +11,5 @@ public interface RecordDao {
 //	public Record getRecord(String computerid);
 	public void deleteReCord(String cardid);
 	public Calendar queryBeginTime(Integer computerId);
-
+	public List<Record> queryRecordByUsername(String username);
 }

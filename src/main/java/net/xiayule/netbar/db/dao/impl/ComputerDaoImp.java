@@ -1,10 +1,10 @@
-package net.xiayule.netbar.db.impl;
+package net.xiayule.netbar.db.dao.impl;
 
 
-import net.xiayule.netbar.db.ComputerDao;
-import net.xiayule.netbar.db.JdbcManager;
+import net.xiayule.netbar.db.dao.ComputerDao;
+import net.xiayule.netbar.db.dao.JdbcManager;
 import net.xiayule.netbar.domain.ComputerRow;
-import net.xiayule.netbar.entity.Computer;
+import net.xiayule.netbar.db.entity.Computer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 

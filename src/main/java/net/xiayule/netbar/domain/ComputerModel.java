@@ -1,8 +1,7 @@
 package net.xiayule.netbar.domain;
 
-import com.oracle.deploy.update.UpdateCheck;
-import net.xiayule.netbar.db.ComputerDao;
-import net.xiayule.netbar.db.impl.ComputerDaoImp;
+import net.xiayule.netbar.db.dao.ComputerDao;
+import net.xiayule.netbar.db.dao.impl.ComputerDaoImp;
 
 import javax.swing.*;
 import javax.swing.event.TableModelListener;
@@ -75,20 +74,6 @@ public class ComputerModel extends AbstractTableModel {
         return null;
     }
 
-    @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        //todo: 待补充
-    }
-
-    @Override
-    public void addTableModelListener(TableModelListener l) {
-
-    }
-
-    @Override
-    public void removeTableModelListener(TableModelListener l) {
-
-    }
 
     public List<ComputerRow> getComputerRows() {
         return computerRows;

@@ -1,15 +1,14 @@
 package net.xiayule.netbar.view.dialog;
 
-import net.xiayule.netbar.db.CardDao;
-import net.xiayule.netbar.db.impl.CardDaoImp;
-import net.xiayule.netbar.entity.Card;
+import net.xiayule.netbar.db.dao.CardDao;
+import net.xiayule.netbar.db.dao.impl.CardDaoImp;
+import net.xiayule.netbar.db.entity.Card;
 import net.xiayule.netbar.utils.BoxUtils;
 import net.xiayule.netbar.utils.ComponentUtils;
 import net.xiayule.netbar.utils.Utils;
 import net.xiayule.netbar.utils.ViewUtils;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

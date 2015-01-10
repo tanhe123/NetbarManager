@@ -1,19 +1,12 @@
-package net.xiayule.netbar.db.impl;
+package net.xiayule.netbar.db.dao.impl;
 
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import net.xiayule.netbar.db.CardDao;
-import net.xiayule.netbar.db.JdbcManager;
-import net.xiayule.netbar.entity.Card;
-import net.xiayule.netbar.utils.Utils;
+import net.xiayule.netbar.db.dao.CardDao;
+import net.xiayule.netbar.db.dao.JdbcManager;
+import net.xiayule.netbar.db.entity.Card;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Map;
 
 public class CardDaoImp implements CardDao {
 	private JdbcTemplate jtl; 
@@ -154,7 +147,6 @@ public class CardDaoImp implements CardDao {
 	 */
 	public Boolean exist(String username){
 		String sql = "select count(*) from card where username = ?";
-		System.out.println(username);
 		Object [] params = new Object[]{username};
 		return jtl.queryForInt(sql, params) != 0;
 	}

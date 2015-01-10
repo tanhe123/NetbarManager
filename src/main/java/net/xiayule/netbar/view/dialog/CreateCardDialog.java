@@ -1,12 +1,10 @@
 package net.xiayule.netbar.view.dialog;
 
-import net.xiayule.netbar.db.CardDao;
-import net.xiayule.netbar.db.impl.CardDaoImp;
-import net.xiayule.netbar.entity.Card;
+import net.xiayule.netbar.db.dao.CardDao;
+import net.xiayule.netbar.db.dao.impl.CardDaoImp;
+import net.xiayule.netbar.db.entity.Card;
 import net.xiayule.netbar.utils.*;
-import sun.swing.StringUIClientPropertyKey;
 
-import javax.rmi.CORBA.Util;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
