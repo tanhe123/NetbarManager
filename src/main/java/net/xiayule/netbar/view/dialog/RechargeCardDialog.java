@@ -76,21 +76,19 @@ public class RechargeCardDialog extends JDialog {
 	private void addListener() {
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// 获取输入的用户名
 				String username = userNameText.getText();
+
+				// 获取输入的金额，并转换成double类型
 				double balance = Double.parseDouble(balanceText.getText());
 
-				Card card = new Card();
-				card.setUsername(username);
-				card.setBalance(balance);
-
-				if (cardDao.exist(userNameText.getText().trim())) {
+				if (cardDao.exist(username)) { // 要确保该用户存在
+					// 充值，写入数据库
 					cardDao.rechargeCard(username, balance);
-					// todo: 添加log
 					Utils.showDialog("充值成功");
 					RechargeCardDialog.this.dispose();
 				} else { // 如果不存在用户
 					Utils.showDialog("没有指定该用户");
-//					RechargeCardDialog.this.dispose();
 				}
 			}
 		});

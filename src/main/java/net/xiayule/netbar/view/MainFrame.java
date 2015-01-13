@@ -35,6 +35,7 @@ public class MainFrame extends JFrame {
     // 操作
     private JMenuItem commondOn = new JMenuItem("上机");
     private JMenuItem commondOff = new JMenuItem("下机");
+    private JMenuItem commontExit = new JMenuItem("退出");
 
     // 计算机管理
     private JMenuItem computerAdd = new JMenuItem("新增机器");
@@ -87,6 +88,7 @@ public class MainFrame extends JFrame {
         // 操作菜单
         commondMenu.add(commondOn);
         commondMenu.add(commondOff);
+        commondMenu.add(commontExit);
 
         // 机器管理菜单
         computerMenu.add(computerAdd);
@@ -97,6 +99,7 @@ public class MainFrame extends JFrame {
         cardMenu.add(cardAdd);
         cardMenu.add(cardRecharge);
 
+        // 获得 标签页 panel
         getContentPane().add(getJTabbedPane(), BorderLayout.CENTER);
     }
 
@@ -104,13 +107,17 @@ public class MainFrame extends JFrame {
      * 标签面板
      */
     public JTabbedPane getJTabbedPane() {
-
+        // 创建一个 标签页 panel
         JTabbedPane tabbedPane = new JTabbedPane();
+
+        // 添加上机管理面板
         tabbedPane.addTab("上机管理", getComputerMgrScrollPanel());
 
-        tabbedPane.setSelectedIndex(0);
+        // 添加记录管理面板
+        tabbedPane.addTab("记录管理", getRecordMgrPanel());
 
-        tabbedPane.add("记录管理", getRecordMgrPanel());
+        // 默认选择第一个标签页
+        tabbedPane.setSelectedIndex(0);
 
         return tabbedPane;
     }
@@ -121,11 +128,15 @@ public class MainFrame extends JFrame {
      * @return
      */
     public JPanel getRecordMgrPanel() {
+        // 创建一个 panel 实例
         JPanel mainPanel = new JPanel();
+        // 设置布局为 BorderLayout
         mainPanel.setLayout(new BorderLayout());
 
         // 添加搜索面板
+        // 把搜索的panel放入容器的上部
         mainPanel.add(getRecordSearchPanel(), BorderLayout.NORTH);
+        // 把显示的panel（talbe）放到中间
         mainPanel.add(getRecordMgrScrollPanel(), BorderLayout.CENTER);
 
         return mainPanel;
@@ -163,12 +174,17 @@ public class MainFrame extends JFrame {
     }
 
     public JScrollPane getRecordMgrScrollPanel() {
+        // 实例化一个table，用来显示记录
         recordMgrTable = new JTable();
+        // 创建用来显示记录的数据模型
         recordMgrModel = new RecordModel(recordMgrTable);
+        // 设置显示记录的数据模型
         recordMgrTable.setModel(recordMgrModel);
 
-        // 只能选中单行
+        // 表格只能选中单行
         recordMgrTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        // 把table放到一个可滚动的panel里
         JScrollPane scrollPane = new JScrollPane(recordMgrTable);
 
         return scrollPane;
@@ -178,13 +194,19 @@ public class MainFrame extends JFrame {
      * 显示上机下机信息表格
      */
     public JScrollPane getComputerMgrScrollPanel() {
+        // 创建一个表格组件实例
         computerMgrTable = new JTable();
+        // 创建数据模型，用来提供表格数据源
         computerMgrModel = new ComputerModel(computerMgrTable);
+        // 设置表格的数据源
         computerMgrTable.setModel(computerMgrModel);
 
         // 只能选中单行
         computerMgrTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        // 可滚动的panel, 使得当内容超过panel高度时，出现竖直滚动条
         JScrollPane scrollPane = new JScrollPane(computerMgrTable);
+
         return scrollPane;
     }
 
@@ -228,7 +250,7 @@ public class MainFrame extends JFrame {
             Integer index = computerMgrTable.getSelectedRow();
 
             if (index < 0) {
-                Utils.showDialog("请选定一个机器上机");
+                Utils.showDialog("请选定一个机器下机");
                 return;
             }
 
@@ -260,6 +282,10 @@ public class MainFrame extends JFrame {
                     + "费用合计: " + fee);
         });
 
+        commontExit.addActionListener(e -> {
+            System.exit(0);
+        });
+
         // 会员卡相关
         cardAdd.addActionListener(e -> {
             JDialog dialog = new CreateCardDialog(MainFrame.this);
@@ -280,18 +306,22 @@ public class MainFrame extends JFrame {
 
         // 记录查询提交按钮
         searchSubmit.addActionListener(e -> {
+            // 获得查询的用户名
             String username = usernameText.getText();
 
+            // 如果用户名为空
             if (!StringUtils.hasText(username)) {
                 Utils.showDialog("用户名不能为空");
                 return;
             }
 
+            // 如果用户不存在
             if (!cardDao.exist(username)) {
                 Utils.showDialog("您要检索的用户不存在");
                 return;
             }
 
+            // 通过用户名获得该用户的所有上机记录
             List<Record> recordList = recordDao.queryRecordByUsername(username);
 
             // 填入数据，并显示

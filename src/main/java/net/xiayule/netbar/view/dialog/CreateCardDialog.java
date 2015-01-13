@@ -114,11 +114,14 @@ public class CreateCardDialog extends JDialog {
 		});
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// 获得输入的用户名
 				String username = usernameText.getText();
+
 				if (!StringUtils.hasText(username)) {
 					Utils.showDialog("用户名不能为空");
 					return;
 				}
+
 				String password = passwordText.getText();
 				if (!StringUtils.hasText(password)) {
 					Utils.showDialog("密码不能为空");
@@ -129,24 +132,24 @@ public class CreateCardDialog extends JDialog {
 					Utils.showDialog("金额不能为空");
 					return;
 				}
+
 				double balance = Double.parseDouble(balanceText.getText());
 
 				Card card = new Card();
 				card.setPassword(password);
 				card.setUsername(username);
 				card.setBalance(balance);
-//				card.setState(state);
 
 				if (!cardDao.exist(usernameText.getText())) { // 如果不存在用户
-					//todo: 记录 log
-//					rdi.deleteReCord(card.getCardid());
+					// 写入数据库
 					cardDao.insertCard(card);
+
 					Utils.showDialog("创建成功");
+					// 销毁当前对话框
 					CreateCardDialog.this.dispose();
 				} else {
 					Utils.showDialog("会员名已存在");
 					return;
-//					CreateCardDialog.this.dispose();
 				}
 			}
 		});

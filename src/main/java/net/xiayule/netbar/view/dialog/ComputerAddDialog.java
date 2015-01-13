@@ -57,8 +57,6 @@ public class ComputerAddDialog extends JDialog {
                 computerDao.insertComputer();
             }
 
-
-
             Utils.showDialog("成功添加" + num + "台机器");
 
             this.dispose();

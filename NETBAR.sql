@@ -16,7 +16,7 @@ CREATE TABLE computer(
 	state INTEGER NOT NULL
 ) charset utf8;
 
-# 卡号自动从 1 开始增长
+# 机号自动从 1 开始增长
 ALTER TABLE computer auto_increment=1;
 
 CREATE TABLE record(
@@ -28,12 +28,12 @@ CREATE TABLE record(
 	fee DOUBLE(5,2)
 ) charset utf8;
 
-INSERT INTO card(username, password, balance) VALUES('张三', '123', 100.00);
-INSERT INTO card(username, password, balance) VALUES('李四', '123', 100.00);
+INSERT INTO card(username, password, balance) VALUES('张三', '123', 100.0);
+INSERT INTO card(username, password, balance) VALUES('李四', '123', 100.0);
 INSERT INTO card(username, password, balance) VALUES('王五', '123', 100.0);
-INSERT INTO card(username, password, balance) VALUES('伟哥', '123', 100.0);
+INSERT INTO card(username, password, balance) VALUES('小王', '123', 100.0);
 INSERT INTO card(username, password, balance) VALUES('小强', '123', 100.0);
-INSERT INTO card(username, password, balance) VALUES('四爷', '123', 100.0);
+INSERT INTO card(username, password, balance) VALUES('小四', '123', 100.0);
 
 
 INSERT INTO computer(state) VALUES(0);

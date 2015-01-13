@@ -84,7 +84,6 @@ public class RecordDaoImp implements RecordDao {
 				Calendar beginTime =  Calendar.getInstance();
 				beginTime.setTime(rs.getTimestamp("begintime"));
 
-
 				// endTime 有可能为空
 				Calendar endTime =  Calendar.getInstance();
 				endTime.setTime(rs.getTimestamp("endtime"));
